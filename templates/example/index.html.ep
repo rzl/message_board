@@ -1,0 +1,87 @@
+% layout 'default';
+% title 'index';
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#title*").click(function(){
+  $(this).parent("#article*").children("#text*").toggle();
+  });
+});
+</script>
+
+<script type="text/javascript">
+function dele(a){
+var b=a.innerHTML;
+$(this).html(b);
+alert($(this).html());
+alert(b);
+ 
+}
+</script>
+<div class="libli" onclick="dele(this)">
+<P>　　中新社北京12月18日电 (记者 丁栋)</p>
+</div>
+
+%my $author='';
+%$author=session 'name' if session 'name';
+
+%foreach my $artist (@$entries){
+
+<div id="article" class="panel panel-default" >
+<div id="title" class="panel-heading" style="display: table; width: 100%;">
+
+<div style="display: table-cell;">
+标题：
+%= $artist->title;
+</div>
+<div style="display: table-cell; text-align: right;" class="text-right">
+作者：
+%= $artist->author;
+%if ($artist->author eq $author){
+<a class="btn-sm btn-danger" href="/del?id=<%= $artist->title%>">删除</a>
+%}
+</div>
+
+</div>
+
+<div id="text" class="panel-body">
+%= $artist->title;
+</div>
+
+
+</div>
+%}
+
+	<ul class="pagination pagination-sm">
+					<li>
+						<a href="#">&laquo;</a>
+					</li>
+					<li>
+						<a href="/pages/1.html">1</a>
+					</li>
+					<li>
+						<a href="/pages/2.html">2</a>
+					</li>
+					<li>
+						<a href="/pages/3.html">3</a>
+					</li>
+					<li>
+						<a href="/pages/4.html">4</a>
+					</li>
+					<li>
+						<a href="/pages/5.html">5</a>
+					</li>
+					<li>
+						<a href="/pages/2.html">&raquo;</a>
+					</li>
+				</ul>
+			
+	
+
+
+<script type="text/javascript">
+$("#text*").hide();
+</script>
+
+

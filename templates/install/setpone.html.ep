@@ -1,0 +1,18 @@
+<form action="" method="POST"> 
+管理名称：<input type="text" name="db_user" value="root"/><br> 
+管理密码：<input type="text" name="db_pass" value=""/><br> 
+管理密码：<input type="text" name="db_pass" value=""/><br> 
+数据库名：<input type="text" name="db_dbname" value="php100_db"/><br> 
+数据前缀：<input type="text" name="db_tag" value="p_"/><br> 
+<button type=submit name=install>下一步</button> 
+</form> 
+<p>
+<script type="text/javascript">
+function showmessage(message) {
+    document.getElementById('notice').innerHTML += message + '<br/>';
+    document.getElementById('notice').scrollTop = 100000000;
+}
+</script>
+<div id="notice">
+%= $msg
+</div>
