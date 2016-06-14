@@ -1,0 +1,4 @@
+
+建议打开1.cmd后 使用下面命令运行
+morbo -w ./lib -w ./templates ./message_board.pl
+
