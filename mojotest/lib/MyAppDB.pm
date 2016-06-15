@@ -77,7 +77,8 @@ my $table2= '
 create table if not exists users  (
   id integer primary key autoincrement,
   name string not null,
-  password string not null
+  password string not null,
+  tid integer DEFAULT 0 
 );
 ';
 $dbh->do($table1) or die $dbh->errstr;

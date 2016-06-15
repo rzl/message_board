@@ -26,27 +26,27 @@ alert(b);
 %my $author='';
 %$author=session 'name' if session 'name';
 
-%foreach my $artist (@$entries){
+%foreach my $artist (sort keys %$entries){
 
 <div id="article" class="panel panel-default" >
 <div id="title" class="panel-heading" style="display: table; width: 100%;">
 
 <div style="display: table-cell;">
 标题：
-%= $artist->title;
+%= $entries->{$artist}->{title};
 </div>
 <div style="display: table-cell; text-align: right;" class="text-right">
 作者：
-%= $artist->author;
-%if ($artist->author eq $author){
-<a class="btn-sm btn-danger" href="/del?id=<%= $artist->title%>">删除</a>
+%= $entries->{$artist}->{author};
+%if ($entries->{$artist}->{author} eq $author){
+<a class="btn-sm btn-danger" href="/del?id=<%= $entries->{$artist}->{title}%>">删除</a>
 %}
 </div>
 
 </div>
 
 <div id="text" class="panel-body">
-%= $artist->title;
+%= $entries->{$artist}->{title};
 </div>
 
 

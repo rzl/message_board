@@ -1,5 +1,6 @@
 package MyApp::Controller::Example;
 use Mojo::Base 'Mojolicious::Controller';
+use Data::Dumper;
 
 # This action will render a template
 sub welcome {
@@ -10,12 +11,11 @@ sub welcome {
 }
 
 sub index {
-    my $self = shift;
-	my $dbh=$self->AppDB->getcon;
-	my @res=$dbh->resultset('PlArticle')->all;
-	   $self->stash(entries=> [@res]);
-	   $self->render();
-	   $self->AppDB->putcon($dbh);
+    my $c = shift;
+	#my @res=$c->entries->get_entries;
+	#say @res;
+	   $c->stash(entries=> $c->entries->get_entries);
+	   $c->render();
 }
 
 sub publish {

@@ -1,25 +1,42 @@
 package MyApp;
 use Mojo::Base 'Mojolicious';
-use MyAppDB;
-use Users;
-
+use MyApp::Model::DB;
+use MyApp::Model::Users;
+use MyApp::Model::Entries;
 
 # This method will run once at server start
 sub startup {
-  my $self = shift;
- # my $AppDB = MyAppDB->new;
- # $self->helper(AppDB => sub { return $AppDB });
-  my $users=Users->new;
-  $self->helper(users => sub {return $users});
-  # Documentation browser under "/perldoc"
-  $self->plugin('PODRenderer');
-  # Router
-  my $r = $self->routes;
-  unless  (-e "mojo.db") {
-  say "not found database file .";
-  #$r->get('/*')->to('Install#setpone');
-  #$self->AppDB->initdata();
+  my $c = shift;
+  $c->app->secrets(['message_board']);
+  
+#load helper
+  $c->helper(DB => sub { state $appDB = MyApp::Model::DB->new });
+  $c->helper(users => sub {state $users = MyApp::Model::Users->new});
+  $c->helper(entries => sub {state $entries = MyApp::Model::Entries->new}); 
+  
+#load web db conf
+  if (-e 'conf/db.conf'){
+	  $c->helper(db_conf => sub {$c->plugin('Config', {file => 'conf/db.conf'})});
+	  say $c->db_conf->{db_name};
+		if (-e  $c->db_conf->{db_name} ){
+			$c->DB->db_name($c->db_conf->{db_name});
+			$c->DB->connect_db;
+			$c->users->dbh($c->DB->dbh);
+			$c->entries->dbh($c->DB->dbh);
+		} else {
+			say $c->db_conf->{db_name}." db file not exist";
+			say "please run http://localhost:3000/install";
+		}
   }
+  
+  
+  
+  # Documentation browser under "/perldoc"
+  $c->plugin('PODRenderer');
+  
+  # Router
+  my $r = $c->routes;
+
   # Normal route to controller
   $r->get('/')->to('example#welcome');
   $r->get('/index')->to('example#index');
