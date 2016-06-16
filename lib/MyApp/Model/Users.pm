@@ -1,6 +1,5 @@
 package MyApp::Model::Users;
 use Mojo::Base -base;
-use Data::Dumper;
 
 has dbh =>  '';
 

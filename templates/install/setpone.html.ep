@@ -1,4 +1,4 @@
-<form action="" method="POST"> 
+<form action="/install" method="POST"> 
 管理名称：<input type="text" name="db_user" value="root"/><br> 
 管理密码：<input type="text" name="db_pass" value=""/><br> 
 管理密码：<input type="text" name="db_pass" value=""/><br> 

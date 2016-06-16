@@ -1,6 +1,5 @@
 package MyApp::Model::DB;
 use Mojo::Base -base;
-use Data::Dumper;
 use DBI;
 
 has db_name => '';
