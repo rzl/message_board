@@ -6,36 +6,41 @@ use MyApp::Model::Entries;
 
 # This method will run once at server start
 sub startup {
-  my $c = shift;
-  $c->app->secrets(['message_board']);
+  my $app = shift;
+  $app->app->secrets(['message_board']);
   
 #load helper
-  $c->helper(DB => sub { state $appDB = MyApp::Model::DB->new });
-  $c->helper(users => sub {state $users = MyApp::Model::Users->new});
-  $c->helper(entries => sub {state $entries = MyApp::Model::Entries->new}); 
+  $app->helper(DB => sub { state $appDB = MyApp::Model::DB->new });
+  $app->helper(users => sub {state $users = MyApp::Model::Users->new});
+  $app->helper(entries => sub {state $entries = MyApp::Model::Entries->new}); 
   
 #load web db conf
   if (-e 'conf/db.conf'){
-	  $c->helper(db_conf => sub {$c->plugin('Config', {file => 'conf/db.conf'})});
-	  say $c->db_conf->{db_name};
-		if (-e  $c->db_conf->{db_name} ){
-			$c->DB->db_name($c->db_conf->{db_name});
-			$c->DB->connect_db;
-			$c->users->dbh($c->DB->dbh);
-			$c->entries->dbh($c->DB->dbh);
+	  $app->helper(db_conf => sub {$app->plugin('Config', {file => 'conf/db.conf'})});
+	  say $app->db_conf->{db_name};
+		if (-e  $app->db_conf->{db_name} ){
+			$app->DB->db_name($app->db_conf->{db_name});
+			$app->DB->connect_db;
+#conf helper dbh
+			$app->users->dbh($app->DB->dbh);
+			$app->entries->dbh($app->DB->dbh);
 		} else {
-			say $c->db_conf->{db_name}." db file not exist";
+			say $app->db_conf->{db_name}." db file not exist";
 			say "please run http://localhost:3000/install";
 		}
+  } else {
+	say 'conf file not found';
+	say "please run http://localhost:3000/install";
+	
   }
   
   
   
   # Documentation browser under "/perldoc"
-  $c->plugin('PODRenderer');
+  $app->plugin('PODRenderer');
   
   # Router
-  my $r = $c->routes;
+  my $r = $app->routes;
 
   # Normal route to controller
   $r->get('/')->to('example#welcome');

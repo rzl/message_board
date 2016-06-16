@@ -2,11 +2,10 @@
 建议打开1.cmd后 使用下面命令运行
 morbo -w ./lib -w ./templates ./message_board.pl
 
-更新
-1，main div 垂直溢出。
-2. 错误帐密登录报错。
-3.注册功能
+数据库初始化
+http://localhost:3000/install
 
-更新
-1.连接池瞎搞的。
-2.删除功能
+
+建议：
+1不要使用驼峰命名。
+2

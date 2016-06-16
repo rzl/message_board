@@ -1,6 +1,5 @@
 package MyApp::Controller::Example;
 use Mojo::Base 'Mojolicious::Controller';
-use Data::Dumper;
 
 # This action will render a template
 sub welcome {
@@ -52,7 +51,6 @@ sub user{
 
 sub pages {
     my $c = shift;
-	say $c->param('pid');
 	   $c->stash(entries=> $c->entries->get_entries_page($c->param('pid')));
 	   $c->render();
 }
