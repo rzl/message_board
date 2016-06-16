@@ -5,16 +5,19 @@ sub login {
   my $c = shift;
   my $aurl=$c->req->headers->referrer;
   $aurl=~s/http.+\//\//;
+  $c->stash(aurl => $aurl);
+  #$c->stash(msg => '登录失败，请检测帐号密码');
+  
   if ($c->session->{name}){
-  $c->render(msg => $aurl);
+  $c->render(aurl => $aurl);
   } else {
 	my $username=$c->param('username');
 	my $password=$c->param('password');
 	  if ($c->users->check_user_pass($username,$password)){
 	  $c->session->{name}=$username;
-	  $c->render(msg => $aurl);
+	  $c->render(msg => '登录成功');
 	  } else {
-	  $c->render(msg => $aurl);
+	  $c->render(msg => '登录失败，请检测帐号密码');
 	  } 
 	 
 }
@@ -22,30 +25,28 @@ sub login {
 
 sub publish{
     my $c = shift;
+   $c->entries->add_entries($c->param('title'), $c->param('text'),$c->session->{name});
    
-   $c->Entries->add_entries();
 	
 }
 
 sub register{
-	my $self = shift;
-	my $username=$self->param('username');
-	my $password=$self->param('password');
-	if ($self->users->isuser($username)){
-	$self->render(msg => '账号已存在');
+	my $c = shift;
+	my $username=$c->param('username');
+	my $password=$c->param('password');
+	if ($c->users->is_user($username)){
+	$c->render(msg => '账号已存在');
 	} else {
-	my $dbh = $self->AppDB->getcon();
     my $sql = 'insert into users (name, password) values (?, ?)';
-    my $sth = $dbh->prepare($sql) or die $dbh->errstr;
-    $sth->execute($self->param('username'), $self->param('password'))or die $sth->errstr;
-	$self->render(msg => '注册成功');
-	$self->AppDB->putcon($dbh); 
+    my $sth = $c->DB->dbh->prepare($sql) or die $c->DB->dbh->errstr;
+    $sth->execute($c->param('username'), $c->param('password'))or die $sth->errstr;
+	$c->render(msg => '注册成功');
 	}
 	
 }
 
 sub del{
-	my $self = shift;
+	my $c = shift;
 	
 }
 1;

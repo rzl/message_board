@@ -4,48 +4,57 @@ use Data::Dumper;
 
 # This action will render a template
 sub welcome {
-  my $self = shift;
-	 $self->stash(description => 'web framework');
+  my $c = shift;
+	 $c->stash(description => 'web framework');
   # Render template "example/welcome.html.ep" with message
-  $self->render(msg => 'Welcome to the Mojolicious real-time web framework!');
+  $c->render(msg => 'Welcome to the Mojolicious real-time web framework!');
 }
 
 sub index {
     my $c = shift;
-	#my @res=$c->entries->get_entries;
-	#say @res;
 	   $c->stash(entries=> $c->entries->get_entries);
 	   $c->render();
 }
 
 sub publish {
-  my $self = shift;
-  $self->render();
+  my $c = shift;
+  $c->render();
 }
 
 sub login {
-  my $self = shift;
-
-  $self->render();
+  my $c = shift;
+  $c->render();
 }
 
 sub logout{
-	my $self=shift;
-	$self->session->{name}='';
-	$self->render();
+	my $c=shift;
+	$c->session->{name}='';
+	$c->render();
 }
 sub del{
-	my $self=shift;
-	if ($self->session->{name}){
-		if ($self->users->isauthor($self->param('id'),$self->session->{name})){
-			$self->users->delaricle($self->param('id'),$self->session->{name});
-			$self->render(msg=>'已删除文章');
+	my $c=shift;
+	if ($c->session->{name}){
+		if ($c->users->is_author($c->param('id'),$c->session->{name})){
+			$c->entries->del_entries($c->param('id'),$c->session->{name});
+			$c->render(msg=>'已删除文章');
 		} else {
-		$self->render(msg=>'这不是你的文章。。。');
+		$c->render(msg=>'这不是你的文章。。。');
 		}
 	} else {
-	$self->render(msg => '未登录');
+	$c->render(msg => '未登录');
 	}
+}
+sub user{
+    my $c = shift;
+	   $c->stash(users => $c->users->get_all_user);
+	   $c->render();
+}
+
+sub pages {
+    my $c = shift;
+	say $c->param('pid');
+	   $c->stash(entries=> $c->entries->get_entries_page($c->param('pid')));
+	   $c->render();
 }
 
 1;

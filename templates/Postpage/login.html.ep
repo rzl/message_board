@@ -1,7 +1,10 @@
 % layout 'default';
 % title 'index';
 	
-	
+% unless (session 'name') {
+%= $msg
+%} else {
 <script language="javascript">
-           window.location.href="<%= $msg %>"; 
+           window.location.href="<%= $aurl %>"; 
 </script> 
+%}

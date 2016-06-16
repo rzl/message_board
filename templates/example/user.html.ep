@@ -1,0 +1,34 @@
+% layout 'default';
+% title 'index';
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#title*").click(function(){
+  $(this).parent("#article*").children("#text*").toggle();
+  });
+});
+</script>
+
+%my $author='';
+%$author=session 'name' if session 'name';
+
+%foreach my $id (sort { $a <=> $b} keys %$users){
+
+<div id="article" class="panel panel-default" >
+<div id="title" class="panel-heading" style="display: table; width: 100%;">
+
+<div style="display: table-cell;">
+%= $users->{$id}->{name};
+</div>
+
+</div>
+
+
+</div>
+%}
+
+
+
+
+

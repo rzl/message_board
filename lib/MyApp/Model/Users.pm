@@ -1,5 +1,6 @@
 package MyApp::Model::Users;
 use Mojo::Base -base;
+use Data::Dumper;
 
 has dbh =>  '';
 
@@ -36,12 +37,12 @@ sub is_author{
 		return 0;
 }
 
-sub del_aricle{
-	my($s,$id,$username)=@_;
-    my $sql = "delete from entries where id=\'$id\' and author=\'$username\'";
-    my $sth = $$s->dbh->prepare($sql) or die $s->dbh->errstr;
+sub get_all_user{
+	my $s = shift;
+	my $sql = "select id,name from users  limit 30";
+	my $sth = $s->dbh->prepare($sql) or die $s->dbh->errstr;
     $sth->execute or die $sth->errstr;
-
+	return $sth->fetchall_hashref('id');
 }
 
 1;

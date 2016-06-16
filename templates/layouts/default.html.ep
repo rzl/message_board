@@ -31,7 +31,7 @@
 </a>
 <a class="btn btn-default" href="/logout">登出</a>
 %}
-<a class="btn btn-default" href="/">会员</a>
+<a class="btn btn-default" href="/users">会员</a>
 </div>
 </div>
 </header>

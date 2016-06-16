@@ -49,6 +49,8 @@ sub startup {
   $r->post('/register')->to('Postpage#register');
   $r->get('/del')->to('example#del');
   $r->any('/install')->to('install#setpone');
+  $r->get('/users')->to('example#user');
+  $r->get('/pages/:pid')->to('example#pages');
   
 }
 

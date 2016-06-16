@@ -1,6 +1,6 @@
 % layout 'default';
 % title 'index';
-
+% $pid=param('pid');
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -9,7 +9,6 @@ $(document).ready(function(){
   });
 });
 </script>
-
 %my $author='';
 %$author=session 'name' if session 'name';
 
@@ -39,30 +38,31 @@ $(document).ready(function(){
 
 </div>
 %}
-
-	<ul class="pagination pagination-sm">
-					<li>
-						<a href="#">&laquo;</a>
-					</li>
-					<li>
-						<a href="/pages/1.html">1</a>
-					</li>
-					<li>
-						<a href="/pages/2.html">2</a>
-					</li>
-					<li>
-						<a href="/pages/3.html">3</a>
-					</li>
-					<li>
-						<a href="/pages/4.html">4</a>
-					</li>
-					<li>
-						<a href="/pages/5.html">5</a>
-					</li>
-					<li>
-						<a href="/pages/2.html">&raquo;</a>
-					</li>
+%if ($pid > 4 ){ 
+<ul class="pagination pagination-sm" >
+					<li><a href="/pages/<%=$pid-1%>.html">&laquo;</a></li>
+					<li><a href="/pages/<%=$pid-2%>.html"><%=$pid-2%></a></li>
+					<li><a href="/pages/<%=$pid-1%>.html"><%=$pid-1%></a></li>
+					<li><a href="/pages/<%=$pid%>.html"><%=$pid%></a></li>
+					<li><a href="/pages/<%=$pid+1%>.html"><%=$pid+1%></a></li>
+					<li><a href="/pages/<%=$pid+2%>.html"><%=$pid+2%></a></li>
+					<li><a href="/pages/<%=$pid+1%>.html">&raquo;</a></li>
 				</ul>
+%} else {
+	<ul class="pagination pagination-sm">
+%if ($pid == 1) {
+	<li><a href="/pages/1.html">&laquo;</a></li> 
+%} else {	
+<li><a href="/pages/<%=$pid-1%>.html">&laquo;</a></li>
+%}	
+					<li><a href="/pages/1.html">1</a></li>
+					<li><a href="/pages/2.html">2</a></li>
+					<li><a href="/pages/3.html">3</a></li>
+					<li><a href="/pages/4.html">4</a></li>
+					<li><a href="/pages/5.html">5</a></li>
+					<li><a href="/pages/<%=$pid+1%>.html">&raquo;</a></li>
+				</ul>
+%}				
 			
 	
 
@@ -70,5 +70,3 @@ $(document).ready(function(){
 <script type="text/javascript">
 $("#text*").hide();
 </script>
-
-
